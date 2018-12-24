@@ -18,7 +18,7 @@ import java.util.List;
  * @website www.ittimeline.net
  * @since JDK8u192
  */
-@Service //基于注解暴露服务
+@Service(timeout = 5000) //基于注解暴露服务 服务提供方设置超时
 @Component
 public class UserServiceImpl implements UserService {
 
