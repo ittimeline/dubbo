@@ -26,7 +26,7 @@ public class OrderServiceImpl implements OrderService {
     /**
      * 通过@Reference注解远程调用UserService服务
      */
-    @Reference
+    @Reference(check = false)
     private UserService userService;
 
     @Override
