@@ -1,14 +1,19 @@
 package net.ittimeline.java.dubbo.springboot.provider.service.impl;
 
 
+import com.alibaba.dubbo.config.ProtocolConfig;
 import com.alibaba.dubbo.config.annotation.Service;
 
 import net.ittimeline.java.dubbo.springboot.api.model.UserAddress;
 import net.ittimeline.java.dubbo.springboot.api.service.UserService;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 /**
  * UserServiceImpl
@@ -21,11 +26,17 @@ import java.util.List;
 @Service(timeout = 5000) //基于注解暴露服务 服务提供方设置超时
 @Component
 public class UserServiceImpl implements UserService {
+    private static final Logger LOGGER= LogManager.getLogger();
 
+
+
+    @Autowired
+    private ProtocolConfig protocolConfig;
 
     @Override
     public List<UserAddress> getUserAddressList(String userId) {
 
+        LOGGER.info("execute get user address list method  dubbo port is {}",protocolConfig.getPort());
         //ignore userId
 
         List<UserAddress> userAddressList =new ArrayList<>();
@@ -46,6 +57,12 @@ public class UserServiceImpl implements UserService {
         userAddressList.add(xiaoshitou);
         userAddressList.add(tony);
 
+        //测试超时，这里sleep 8秒钟
+        try {
+            TimeUnit.SECONDS.sleep(8000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return userAddressList;
     }
